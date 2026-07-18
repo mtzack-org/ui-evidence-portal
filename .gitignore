@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+
+# Environment and local files
+.env
+.env.*
+.DS_Store
+!.env.example
+
+# Logs
+*.log
+
+# IDE settings
+.idea/
+.vscode/
+.vercel
+
+# TypeScript cache
+*.tsbuildinfo
