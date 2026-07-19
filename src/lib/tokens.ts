@@ -37,11 +37,16 @@ export async function verifyUploadToken(token: string) {
 }
 
 export function isValidIngestToken(value: string | null) {
-  const expected = process.env.EVIDENCE_INGEST_TOKEN;
-  if (!value || !expected) return false;
+  const expectedTokens = [
+    process.env.EVIDENCE_INGEST_TOKEN,
+    process.env.EVIDENCE_DEMO_INGEST_TOKEN,
+  ].filter((token): token is string => Boolean(token));
+  if (!value || expectedTokens.length === 0) return false;
   const actualDigest = createHash("sha256").update(value).digest();
-  const expectedDigest = createHash("sha256").update(expected).digest();
-  return timingSafeEqual(actualDigest, expectedDigest);
+  return expectedTokens.some((expected) => {
+    const expectedDigest = createHash("sha256").update(expected).digest();
+    return timingSafeEqual(actualDigest, expectedDigest);
+  });
 }
 
 export function bearerToken(request: Request) {

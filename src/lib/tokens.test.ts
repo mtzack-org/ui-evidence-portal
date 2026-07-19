@@ -5,6 +5,7 @@ import { isValidIngestToken, issueUploadToken, verifyUploadToken } from "./token
 afterEach(() => {
   delete process.env.UPLOAD_SIGNING_SECRET;
   delete process.env.EVIDENCE_INGEST_TOKEN;
+  delete process.env.EVIDENCE_DEMO_INGEST_TOKEN;
 });
 
 describe("short-lived upload authorization", () => {
@@ -23,6 +24,14 @@ describe("short-lived upload authorization", () => {
   it("compares ingest secrets without direct string comparison", () => {
     process.env.EVIDENCE_INGEST_TOKEN = "correct-secret";
     expect(isValidIngestToken("correct-secret")).toBe(true);
+    expect(isValidIngestToken("wrong-secret")).toBe(false);
+  });
+
+  it("accepts an independently revocable demo ingest secret", () => {
+    process.env.EVIDENCE_INGEST_TOKEN = "production-secret";
+    process.env.EVIDENCE_DEMO_INGEST_TOKEN = "demo-secret";
+    expect(isValidIngestToken("production-secret")).toBe(true);
+    expect(isValidIngestToken("demo-secret")).toBe(true);
     expect(isValidIngestToken("wrong-secret")).toBe(false);
   });
 });
