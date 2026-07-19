@@ -11,6 +11,7 @@ Checked on 2026-07-19.
 - The dedicated repository contains the Node.js 24 bundle, source, tests, support policy, and
   security policy without Portal code or workflow files.
 - A separate private repository loaded the public Action from a GitHub-hosted runner successfully.
+- The same repository loaded the published `v1` tag successfully on a GitHub-hosted runner.
 - The `v1.0.0` release and moving `v1` tag point to the tested Action commit.
 - Empty evidence behavior is configurable with `error`, `warn`, or `ignore`.
 - Interrupted uploads are finalized as failed when the short-lived token is still valid.
@@ -27,8 +28,6 @@ Checked on 2026-07-19.
 
 ## External verification still required
 
-- Confirm the second GitHub-hosted runner smoke test against the published `v1` tag after
-  reauthenticating GitHub CLI.
 - Verify GitHub OAuth sign-in and authenticated evidence viewing on a stable Preview callback URL.
 - Deploy a clean Portal from the Vercel button after the Portal repository is public.
 

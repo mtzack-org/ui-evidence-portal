@@ -39,7 +39,7 @@ Actions Job Summary.
 - [x] Run a clean install, Action tests, rebuild the bundle, and verify the committed `dist`.
 - [x] Load the Action from a separate repository on a GitHub-hosted runner using `@main`.
 - [x] Create a `v1.0.0` release and point the moving `v1` tag to the same commit.
-- [ ] Confirm the separate GitHub-hosted runner smoke test using the published `@v1` tag.
+- [x] Confirm the separate GitHub-hosted runner smoke test using the published `@v1` tag.
 - [ ] Select “Publish this Action to the GitHub Marketplace” from the release screen.
 - [ ] Verify installation from the Marketplace listing in a second repository.
 
