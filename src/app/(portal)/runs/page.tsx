@@ -51,7 +51,7 @@ export default async function RunsPage({
 
       <section className="run-table-wrap">
         {runs.length === 0 ? (
-          <div className="empty-state"><div className="empty-radar"><i /></div><h2>No evidence yet</h2><p>GitHub Actionsから最初の実行を登録すると、ここに履歴が表示されます。</p></div>
+          <div className="empty-state"><div className="empty-radar"><i /></div><h2>No evidence yet</h2><p>ローカルまたはGitHub Actionsから最初の実行を登録すると、ここに履歴が表示されます。</p></div>
         ) : (
           <table className="run-table">
             <thead><tr><th>Status</th><th>Run / source</th><th>Platforms</th><th>Tests</th><th>Started</th><th /></tr></thead>
@@ -61,7 +61,7 @@ export default async function RunsPage({
               const failures = results.reduce((sum, [, result]) => sum + result.failed, 0);
               return <tr key={run.id}>
                 <td><StatusBadge status={run.status} /></td>
-                <td><Link href={`/runs/${run.id}`} className="run-title">{run.workflow} <span>#{run.runNumber}</span></Link><div className="source-line"><GitBranch size={13} /> {run.branch} <a href={run.links.commit} target="_blank" rel="noreferrer">{compactSha(run.commitSha)}</a></div></td>
+                <td><Link href={`/runs/${run.id}`} className="run-title">{run.workflow} <span>{run.source === "local" ? "LOCAL" : `#${run.runNumber ?? "-"}`}</span></Link><div className="source-line"><GitBranch size={13} /> {run.branch} <a href={run.links.commit} target="_blank" rel="noreferrer">{compactSha(run.commitSha)}</a>{run.environment ? ` · ${run.environment}` : ""}</div></td>
                 <td><div className="platform-list">{results.map(([name]) => <PlatformMark key={name} platform={name as "web" | "android" | "ios"} />)}</div></td>
                 <td><strong>{total}</strong>{failures > 0 && <span className="failure-count">{failures} failed</span>}</td>
                 <td><span className="time-main">{relativeTime(run.startedAt)}</span><small>{run.actor}</small></td>
