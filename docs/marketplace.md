@@ -25,7 +25,8 @@ Actions Job Summary.
 ## Release checklist
 
 - [x] License the source code under `AGPL-3.0-only`.
-- [ ] Confirm the public product and GitHub organization names.
+- [x] Use `UI Evidence Portal` as the product name and `Upload UI Evidence` as the Action name.
+- [ ] Confirm the public GitHub organization name.
 - [ ] Replace placeholder or organization-specific values in documentation.
 - [ ] Enable GitHub private vulnerability reporting.
 - [ ] Configure a public support channel and verify that GitHub Issues is enabled.

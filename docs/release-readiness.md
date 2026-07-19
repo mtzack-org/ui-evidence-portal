@@ -32,13 +32,17 @@ Checked on 2026-07-19.
 
 ## Decisions required before public release
 
-- Confirm whether `UI Evidence Portal` and `Upload UI Evidence` are the final public names.
 - Decide whether the repository itself becomes public or whether the Action moves to a separate
   public repository.
 - Explicitly approve making the repository public, creating the `v1.0.0` release and `v1` tag,
   and accepting the GitHub Marketplace terms.
 
 The detailed publication sequence is in [`marketplace.md`](marketplace.md).
+
+## Public names
+
+- Product: `UI Evidence Portal`
+- GitHub Action: `Upload UI Evidence`
 
 ## License
 
