@@ -89,6 +89,39 @@ await upload(pathname, file, {
 
 Authorizationには同じ短命`uploadToken`、または登録用tokenを使用できます。Bibliofolio側の具体的なworkflow変更はPortal稼働確認後に別途行います。
 
+## Register a local run
+
+ローカル実行は`source: "local"`と安定した`localRunId`を送り、GitHub Actions固有の
+`workflowRunId`、`runNumber`、`links.run`を省略できます。`environment`、`machine`、
+`devices`は履歴の再現性確認に使用します。
+
+```json
+{
+  "source": "local",
+  "localRunId": "20260719-090000-a1b2c3d4",
+  "repository": "mtzack-org/example-app",
+  "workflow": "Local UI Tests",
+  "status": "running",
+  "retention": "normal",
+  "environment": "staging",
+  "machine": "developer-mac",
+  "devices": {
+    "web": "Google Chrome",
+    "android": "Pixel 9 Pro XL",
+    "ios": "iPhone Simulator"
+  },
+  "branch": "develop",
+  "commitSha": "0123456789abcdef0123456789abcdef01234567",
+  "actor": "mtzack",
+  "event": "local",
+  "startedAt": "2026-07-19T00:00:00.000Z",
+  "platforms": {},
+  "links": {
+    "commit": "https://github.com/mtzack-org/example-app/commit/0123456789abcdef0123456789abcdef01234567"
+  }
+}
+```
+
 ## Retention operations
 
 Vercel Cronが`GET /api/cron/retention`を1日1回呼び出します。手動確認時も次の形式で実行できます。

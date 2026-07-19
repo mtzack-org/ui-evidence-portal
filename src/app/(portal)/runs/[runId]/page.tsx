@@ -25,7 +25,7 @@ export default async function RunDetailPage({
   const selected = platformSchema.safeParse((await searchParams).platform);
   const [run, artifacts, allRuns] = await Promise.all([getRun(runId), listArtifacts(runId), listRuns()]);
   if (!run) notFound();
-  const previous = allRuns.find((candidate) => candidate.id !== run.id && candidate.repository === run.repository && candidate.workflow === run.workflow && candidate.branch === run.branch && candidate.startedAt < run.startedAt);
+  const previous = allRuns.find((candidate) => candidate.id !== run.id && candidate.source === run.source && candidate.repository === run.repository && candidate.workflow === run.workflow && candidate.branch === run.branch && candidate.startedAt < run.startedAt);
   const previousArtifacts = previous ? await listArtifacts(previous.id) : [];
   const filteredArtifacts = selected.success ? artifacts.filter((artifact) => artifact.platform === selected.data) : artifacts;
   const screenshots = filteredArtifacts.filter((artifact) => artifact.kind === "screenshot");
@@ -42,14 +42,14 @@ export default async function RunDetailPage({
       <section className="run-hero">
         <div className="run-hero-main">
           <div className="run-kicker"><StatusBadge status={run.status} /><span>{run.repository}</span></div>
-          <h1>{run.workflow} <em>#{run.runNumber}</em></h1>
+          <h1>{run.workflow} <em>{run.source === "local" ? "LOCAL" : `#${run.runNumber ?? "-"}`}</em></h1>
           <p>{run.commitMessage ?? "No commit message provided"}</p>
-          <div className="run-meta"><span><GitCommit /> {compactSha(run.commitSha)}</span><span><Code2 /> {run.branch}</span><span><Clock3 /> {relativeTime(run.startedAt)}</span><span>by @{run.actor}</span></div>
+          <div className="run-meta"><span><GitCommit /> {compactSha(run.commitSha)}</span><span><Code2 /> {run.branch}</span><span><Clock3 /> {relativeTime(run.startedAt)}</span><span>by @{run.actor}</span>{run.localRunId && <span>{run.localRunId}</span>}{run.environment && <span>{run.environment}</span>}{run.machine && <span>{run.machine}</span>}{Object.entries(run.devices ?? {}).map(([platform, device]) => <span key={platform}>{platform}: {device}</span>)}</div>
         </div>
         <div className="action-links">
           {run.links.pullRequest && <a href={run.links.pullRequest} target="_blank" rel="noreferrer"><GitPullRequest /> PR #{run.pullRequest}<ExternalLink /></a>}
           <a href={run.links.commit} target="_blank" rel="noreferrer"><GitCommit /> Commit<ExternalLink /></a>
-          <a href={run.links.run} target="_blank" rel="noreferrer"><Workflow /> Actions<ExternalLink /></a>
+          {run.links.run && <a href={run.links.run} target="_blank" rel="noreferrer"><Workflow /> Actions<ExternalLink /></a>}
           {run.links.artifacts && <a href={run.links.artifacts} target="_blank" rel="noreferrer"><Box /> Artifact<ExternalLink /></a>}
         </div>
       </section>
@@ -83,7 +83,7 @@ export default async function RunDetailPage({
       <section className="evidence-section compare-section">
         <div className="section-title"><div><Workflow /><span>PREVIOUS RUN COMPARISON</span></div></div>
         {previous ? <>
-          <div className="compare-card"><div><small>PREVIOUS</small><Link href={`/runs/${previous.id}`}>#{previous.runNumber}</Link><StatusBadge status={previous.status} /></div><div className="compare-line"><i /><span>same workflow + branch</span><i /></div><div><small>CURRENT</small><strong>#{run.runNumber}</strong><StatusBadge status={run.status} /></div></div>
+          <div className="compare-card"><div><small>PREVIOUS</small><Link href={`/runs/${previous.id}`}>{previous.source === "local" ? "LOCAL" : `#${previous.runNumber ?? "-"}`}</Link><StatusBadge status={previous.status} /></div><div className="compare-line"><i /><span>same workflow + branch</span><i /></div><div><small>CURRENT</small><strong>{run.source === "local" ? "LOCAL" : `#${run.runNumber ?? "-"}`}</strong><StatusBadge status={run.status} /></div></div>
           <div className="result-diff">
             {(["web", "android", "ios"] as Platform[]).flatMap((platform) => {
               const current = run.platforms[platform];

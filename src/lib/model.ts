@@ -21,6 +21,9 @@ export const artifactKindSchema = z.enum([
 ]);
 export type ArtifactKind = z.infer<typeof artifactKindSchema>;
 
+export const runSourceSchema = z.enum(["github-actions", "local"]);
+export type RunSource = z.infer<typeof runSourceSchema>;
+
 export const platformResultSchema = z.object({
   status: runStatusSchema,
   total: z.number().int().nonnegative().default(0),
@@ -33,11 +36,16 @@ export const platformResultSchema = z.object({
 export const runSchema = z.object({
   schemaVersion: z.literal(1),
   id: z.string().min(8).max(160),
+  source: runSourceSchema.default("github-actions"),
   repository: z.string().regex(/^[\w.-]+\/[\w.-]+$/),
   workflow: z.string().min(1).max(200),
-  workflowRunId: z.number().int().positive(),
-  runNumber: z.number().int().positive(),
+  workflowRunId: z.number().int().positive().optional(),
+  runNumber: z.number().int().positive().optional(),
   runAttempt: z.number().int().positive().default(1),
+  localRunId: z.string().min(8).max(160).optional(),
+  environment: z.string().min(1).max(80).optional(),
+  machine: z.string().min(1).max(200).optional(),
+  devices: z.partialRecord(platformSchema, z.string().min(1).max(300)).optional(),
   status: runStatusSchema,
   retention: z.enum(["normal", "release", "manual"]),
   branch: z.string().min(1).max(255),
@@ -52,7 +60,7 @@ export const runSchema = z.object({
   evidenceDeletedAt: z.string().datetime().optional(),
   platforms: z.partialRecord(platformSchema, platformResultSchema),
   links: z.object({
-    run: z.string().url(),
+    run: z.string().url().optional(),
     commit: z.string().url(),
     pullRequest: z.string().url().optional(),
     artifacts: z.string().url().optional(),
@@ -68,7 +76,39 @@ export const createRunSchema = runSchema
     expiresAt: true,
     evidenceDeletedAt: true,
   })
-  .extend({ status: runStatusSchema.default("running") });
+  .extend({ status: runStatusSchema.default("running") })
+  .superRefine((run, context) => {
+    if (run.source === "local" && !run.localRunId) {
+      context.addIssue({
+        code: "custom",
+        path: ["localRunId"],
+        message: "localRunId is required for local runs",
+      });
+    }
+
+    if (run.source === "github-actions") {
+      const required: Array<["workflowRunId" | "runNumber", number | undefined]> = [
+        ["workflowRunId", run.workflowRunId],
+        ["runNumber", run.runNumber],
+      ];
+      for (const [field, value] of required) {
+        if (value === undefined) {
+          context.addIssue({
+            code: "custom",
+            path: [field],
+            message: `${field} is required for GitHub Actions runs`,
+          });
+        }
+      }
+      if (!run.links.run) {
+        context.addIssue({
+          code: "custom",
+          path: ["links", "run"],
+          message: "links.run is required for GitHub Actions runs",
+        });
+      }
+    }
+  });
 
 export const finalizeRunSchema = z.object({
   status: runStatusSchema.exclude(["queued", "running"]),

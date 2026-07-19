@@ -23,7 +23,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const id = `${Date.now()}-${parsed.data.workflowRunId}-${crypto.randomUUID()}`;
+  const sourceId = String(parsed.data.workflowRunId ?? parsed.data.localRunId ?? "local")
+    .slice(0, 64)
+    .replace(/[^\w.-]/g, "-");
+  const id = `${Date.now()}-${sourceId}-${crypto.randomUUID()}`;
   const run: EvidenceRun = {
     ...parsed.data,
     schemaVersion: 1,

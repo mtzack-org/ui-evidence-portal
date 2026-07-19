@@ -5,6 +5,7 @@ import type { EvidenceRun } from "./model";
 const baseRun: EvidenceRun = {
   schemaVersion: 1,
   id: "12345678-run",
+  source: "github-actions",
   repository: "mtzack-org/example",
   workflow: "UI Tests",
   workflowRunId: 1,
