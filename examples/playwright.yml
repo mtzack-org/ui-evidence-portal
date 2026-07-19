@@ -24,7 +24,7 @@ jobs:
 
       - name: Upload UI evidence
         if: always()
-        uses: mtzack-org/ui-evidence-portal@v1
+        uses: mtzack-org/upload-ui-evidence@v1
         with:
           portal-url: ${{ secrets.UI_EVIDENCE_PORTAL_URL }}
           token: ${{ secrets.UI_EVIDENCE_INGEST_TOKEN }}

@@ -5,8 +5,6 @@ node_modules/
 dist/
 build/
 .next/
-!action/dist/
-!action/dist/**
 
 # Environment and local files
 .env

@@ -1,5 +1,7 @@
 # GitHub Marketplace release
 
+Action repository: [`mtzack-org/upload-ui-evidence`](https://github.com/mtzack-org/upload-ui-evidence)
+
 ## Listing copy
 
 ### Name
@@ -26,16 +28,18 @@ Actions Job Summary.
 
 - [x] License the source code under `AGPL-3.0-only`.
 - [x] Use `UI Evidence Portal` as the product name and `Upload UI Evidence` as the Action name.
-- [ ] Confirm the public GitHub organization name.
-- [ ] Replace placeholder or organization-specific values in documentation.
-- [ ] Enable GitHub private vulnerability reporting.
-- [ ] Configure a public support channel and verify that GitHub Issues is enabled.
+- [x] Publish from the `mtzack-org` GitHub organization.
+- [x] Replace placeholder values in the Action documentation.
+- [x] Enable GitHub private vulnerability reporting.
+- [x] Configure GitHub Issues, support guidance, and a bug report form.
 - [ ] Deploy a clean Portal from the Vercel button and connect a Private Blob store.
 - [ ] Run `examples/playwright.yml` from a separate test repository.
 - [ ] Verify create, upload, finalize, authenticated viewing, and retention behavior.
 - [ ] Run `npm ci && npm run lint && npm run typecheck && npm test`.
-- [ ] Run `npm run test:action && npm run build:action` and commit `action/dist`.
-- [ ] Create a `v1.0.0` release and point the moving `v1` tag to the same commit.
+- [x] Run a clean install, Action tests, rebuild the bundle, and verify the committed `dist`.
+- [x] Load the Action from a separate repository on a GitHub-hosted runner using `@main`.
+- [x] Create a `v1.0.0` release and point the moving `v1` tag to the same commit.
+- [ ] Confirm the separate GitHub-hosted runner smoke test using the published `@v1` tag.
 - [ ] Select “Publish this Action to the GitHub Marketplace” from the release screen.
 - [ ] Verify installation from the Marketplace listing in a second repository.
 
