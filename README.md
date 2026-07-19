@@ -83,6 +83,10 @@ npm run dev
 
 現在の公開可否は[`docs/release-readiness.md`](docs/release-readiness.md)、公開手順は[`docs/marketplace.md`](docs/marketplace.md)、問い合わせ方法は[`SUPPORT.md`](SUPPORT.md)、脆弱性報告は[`SECURITY.md`](SECURITY.md)を参照してください。
 
+## License
+
+GNU Affero General Public License v3.0 only (`AGPL-3.0-only`)。詳細は[`LICENSE`](LICENSE)を参照してください。
+
 ## Develop the Action
 
 Actionのソースは`action/src`、単体テストは`action/test`にあります。Marketplaceで実行されるバンドルを更新するときは次を実行します。

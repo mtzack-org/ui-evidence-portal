@@ -24,7 +24,7 @@ Actions Job Summary.
 
 ## Release checklist
 
-- [ ] Decide the source-code license before making the repository public.
+- [x] License the source code under `AGPL-3.0-only`.
 - [ ] Confirm the public product and GitHub organization names.
 - [ ] Replace placeholder or organization-specific values in documentation.
 - [ ] Enable GitHub private vulnerability reporting.

@@ -32,8 +32,6 @@ Checked on 2026-07-19.
 
 ## Decisions required before public release
 
-- Choose a source-code license. The Vercel self-hosting button should not be advertised publicly
-  until users have explicit permission to copy and deploy the code.
 - Confirm whether `UI Evidence Portal` and `Upload UI Evidence` are the final public names.
 - Decide whether the repository itself becomes public or whether the Action moves to a separate
   public repository.
@@ -41,3 +39,8 @@ Checked on 2026-07-19.
   and accepting the GitHub Marketplace terms.
 
 The detailed publication sequence is in [`marketplace.md`](marketplace.md).
+
+## License
+
+The source code is licensed under the GNU Affero General Public License v3.0 only
+(`AGPL-3.0-only`). See [`../LICENSE`](../LICENSE).
