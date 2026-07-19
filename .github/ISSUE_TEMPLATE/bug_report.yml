@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a reproducible problem with the Portal or Upload UI Evidence Action.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include tokens, OAuth secrets, Blob URLs, or private test evidence.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Upload UI Evidence Action
+        - Portal UI
+        - Portal API
+        - Authentication
+        - Retention
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v1.0.0 or commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include a minimal workflow excerpt with all secrets removed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
