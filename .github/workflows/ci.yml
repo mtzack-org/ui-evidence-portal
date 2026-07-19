@@ -21,4 +21,8 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      - run: npm run test:action
+      - run: npm run build:action
+      - name: Verify committed Action bundle
+        run: git diff --exit-code -- action/dist
       - run: npm run build
